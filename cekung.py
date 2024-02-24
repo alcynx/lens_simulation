@@ -58,6 +58,11 @@ def tinggi_bayangan(s, h, s_aks):
     h_aks = (s_aks / s) * h
     return h_aks
 
+# Menghitung perbesaran cermin cekung
+def perbesaran_cermin_cekung(s_aks, s):
+    magnifikasi = s_aks / s  # Perbesaran cermin cekung umumnya negatif
+    return magnifikasi
+
 # Inisialisasi ukuran canvas
 width, height = 1000, 500
 canvas = pygame.display.set_mode((width, height))
@@ -172,8 +177,10 @@ while True :
     draw_dda_circle(canvas, x1, y1, wheel_radius, 255, 0, 0)  # Ban kanan
 
     # Bayangan
-    lebar_bayangan_mobil = 80  * scale_factor # lebar badan mobil
-    tinggi_bayangan_mobil = 40 * scale_factor # tinggi badan mobil
+    perbesaran = perbesaran_cermin_cekung(jarakBayangan, jarak_benda)
+    lebar_bayangan_mobil = 80 * scale_factor * perbesaran  # lebar bayangan mobil
+    tinggi_bayangan_mobil = 40 * scale_factor * perbesaran  # tinggi bayangan mobil
+    
 
     x1, y1 = gariskoor_x(jarakBayangan - lebar_bayangan_mobil/1.5), gariskoor_y(-tinggiBayangan + tinggi_bayangan_mobil)
     x2, y2 = gariskoor_x(jarakBayangan + lebar_bayangan_mobil/1.5), gariskoor_y(-tinggiBayangan + tinggi_bayangan_mobil)
@@ -208,7 +215,8 @@ while True :
     draw_dda_line(canvas, x1, y1, x2, y2, 255, 0, 0)  # garis A4
 
     # Menggambar bayangan ban mobil
-    wheel_radius = 12  * scale_factor # Jari-jari ban mobil
+    perbesaran = perbesaran_cermin_cekung(jarakBayangan, jarak_benda)
+    wheel_radius = 12  * scale_factor * perbesaran # Jari-jari ban mobil
 
     x1, y1 = gariskoor_x(jarakBayangan- lebar_bayangan_mobil/5 - wheel_radius), gariskoor_y(-tinggiBayangan + tinggi_bayangan_mobil)
     draw_dda_circle(canvas, x1, y1, wheel_radius, 255, 0, 0)  # Ban kiri
